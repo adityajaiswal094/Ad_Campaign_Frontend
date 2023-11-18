@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "campaign_name": "Get Leads as call",
+        "campaign_desc": "Reach broad audience and get leads through calls",
+        "icon": "phone_callback",
+        "platform": "Google"
+    },
+    {
+        "id": 2,
+        "campaign_name": "Get Leads as Facebook messages",
+        "campaign_desc": "Get more FB messages from Leads",
+        "icon": "chat",
+        "platform": "FB"
+    },
+    {
+        "id": 3,
+        "campaign_name": "Increase Page followers",
+        "campaign_desc": "Encourage customers to follow your page",
+        "icon": "person_add",
+        "platform": "FB"
+    },
+    {
+        "id": 4,
+        "campaign_name": "Get Customer Leads",
+        "campaign_desc": "Encourage customers to take action",
+        "icon": "group",
+        "platform": "FB"
+    },
+    {
+        "id": 5,
+        "campaign_name": "Get More youtube views",
+        "campaign_desc": "Increase organic views by obtaining user attention",
+        "icon": "visibility",
+        "platform": "Youtube"
+    },
+    {
+        "id": 6,
+        "campaign_name": "Get More website Traffic",
+        "campaign_desc": "Get the right people to visit your website",
+        "icon": "web_traffic",
+        "platform": "Instagram"
+    },
+    {
+        "id": 7,
+        "campaign_name": "Increase Livestore Traffic",
+        "campaign_desc": "Drive visits to local stores, restaurants & Dealerships",
+        "icon": "storefront",
+        "platform": "Google"
+    },
+    {
+        "id": 8,
+        "campaign_name": "Increase your app installs",
+        "campaign_desc": "Get more installs, interactions for your app",
+        "icon": "install_mobile",
+        "platform": "Youtube"
+    },
+    {
+        "id": 9,
+        "campaign_name": "Increase the catalogue sales",
+        "campaign_desc": "Drive the sales of your catalogue and get more leads",
+        "icon": "assignment",
+        "platform": "Google"
+    }
+]
