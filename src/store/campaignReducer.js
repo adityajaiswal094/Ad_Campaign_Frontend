@@ -20,21 +20,6 @@ const initialState = {
   totalCampaigns: 0,
 };
 
-const month = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
 const campaignSlice = createSlice({
   name: "campaigns",
   initialState,
