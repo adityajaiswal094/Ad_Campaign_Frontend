@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 import CategoryDetailsCard from "../components/CategoryDetailsCard";
@@ -17,21 +17,14 @@ const CampaignType = () => {
   const [currentSelectedItemId, setCurrentSelectedItemId] = useState(null);
   const [currentSelectedItem, setCurrentSelectedItem] = useState({});
 
+  const totalCampaigns = useSelector((state) => state.campaigns.totalCampaigns);
   const dispatch = useDispatch();
-  // const campaignType = useSelector(
-  //   (state) => state.campaign.campaign.campaignType
-  // );
 
-  // console.log("campaignType: ", campaignType);
-
-  // Function to handle selection/deselection of items
   const handleItemClick = (itemId, item) => {
     if (currentSelectedItemId === itemId) {
-      // Clicked on the already selected item -> deselect it
       setCurrentSelectedItemId(null);
       setCurrentSelectedItem({});
     } else {
-      // Clicked on a different item -> select it
       setCurrentSelectedItemId(itemId);
       setCurrentSelectedItem(item);
     }
@@ -49,7 +42,6 @@ const CampaignType = () => {
   };
 
   useEffect(() => {
-    console.log("api called in campaigntypes");
     getCampaignTypes();
   }, []);
 
@@ -192,7 +184,12 @@ const CampaignType = () => {
           style={{ backgroundImage: "url('images/img_group16855.svg')" }}
           onClick={() => {
             if (currentSelectedItemId !== null) {
-              dispatch(AddCampaignType(currentSelectedItem));
+              dispatch(
+                AddCampaignType({
+                  campaignType: currentSelectedItem,
+                  id: totalCampaigns + 1,
+                })
+              );
               navigate("/chooseproduct");
             }
           }}

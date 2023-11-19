@@ -11,10 +11,8 @@ import { AddCampaign } from "../store/campaignReducer";
 const ReadytogoPage = () => {
   const navigate = useNavigate();
 
-  const campaign = useSelector((state) => state.campaign.campaign);
+  const campaign = useSelector((state) => state.campaigns.campaign);
   const dispatch = useDispatch();
-
-  // console.log("campaign: ", campaign);
 
   const [currentSelectedItemId, setCurrentSelectedItemId] = useState(null);
 
@@ -32,9 +30,8 @@ const ReadytogoPage = () => {
   const addCampaign = async () => {
     const url = "http://localhost:4000/yourcampaigns";
 
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.post(url, campaign);
-
-    console.log("response.data: ", response.data);
   };
 
   return (

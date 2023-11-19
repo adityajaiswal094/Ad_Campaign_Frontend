@@ -44,7 +44,6 @@ const ChooseproductPage = () => {
   };
 
   useEffect(() => {
-    console.log("api called in chooseproducts");
     getProducts();
   }, []);
 

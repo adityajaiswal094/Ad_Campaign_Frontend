@@ -6,8 +6,12 @@ import { Text } from "./Text";
 export default function Header() {
   return (
     <>
-      <div className="bg-white-A700 border border-blue-50 border-solid flex flex-row items-center justify-center p-4 w-full">
+      <div className="bg-white-A700 border border-blue-50 border-solid flex flex-row items-center justify-between p-4 w-full">
         {/* header */}
+        <div>
+          <h3>Aditya's Cake Shop</h3>
+        </div>
+
         <div className="flex sm:flex-col flex-row gap-4 items-start justify-center mt-1 w-[41%]">
           <Img
             className="h-5 sm:mt-0 mt-[9px] w-5"
@@ -29,7 +33,7 @@ export default function Header() {
             </div>
             <div className="flex flex-row /* gap-1.5 */ items-center justify-center w-[76%]">
               <Text className="text-indigo-900 text-sm" size="txtRegular14">
-                Mukund cake shop
+                Aditya cake shop
               </Text>
               <FaCaretDown />
             </div>

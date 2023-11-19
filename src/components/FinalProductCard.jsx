@@ -29,7 +29,7 @@ const FinalProductCard = (props) => {
                     className="text-base text-deep_purple-900"
                     size="txtGilroySemiBold16"
                   >
-                    Mukund Cake Shop
+                    Aditya Cake Shop
                   </Text>
                   <div className="flex flex-col gap-[19px] justify-start mt-1 w-[45%] md:w-full">
                     <Text
@@ -70,7 +70,7 @@ const FinalProductCard = (props) => {
                   className="my-1 text-[11px] text-deep_purple-900"
                   size="txtGilroySemiBold11"
                 >
-                  Mukund Cake Shop
+                  Aditya Cake Shop
                 </Text>
                 <div
                   className="bg-cover bg-no-repeat flex flex-col h-[23px] items-center justify-end p-[5px] w-[28%]"

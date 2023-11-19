@@ -8,11 +8,16 @@ import { AddDateLocation } from "../store/campaignReducer";
 
 const CampaignSettings = () => {
   const [location, setLocation] = useState("");
-  const [radius, setRadius] = useState(17);
+  const [radius, setRadius] = useState(15);
+  const [activeTab, setActiveTab] = useState("panel-1");
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId); // Update active tab on click
+  };
 
   const updateLocation = (e) => {
     setLocation(e.target.value);
@@ -176,24 +181,34 @@ const CampaignSettings = () => {
                       aria-label="tabs"
                       className="relative w-max mx-auto h-12 grid grid-cols-2 px-[3px] rounded-full bg-gray-900/20 items-center overflow-hidden shadow-2xl shadow-900/20 transition"
                     >
-                      <div className="absolute indicator h-10 my-auto top-0 bottom-0 left-1 w-28 rounded-full bg-white-A700 shadow-md"></div>
+                      <div
+                        className={`absolute h-10 my-auto top-0 bottom-0 ${
+                          activeTab === "panel-1" ? "left-1" : "right-1"
+                        } w-28 rounded-full bg-white-A700 shadow-md`}
+                      ></div>
                       <button
                         role="tab"
-                        aria-selected={true}
+                        aria-selected={activeTab === "panel-1"}
                         aria-controls="panel-1"
                         id="tab-1"
                         tabIndex={0}
-                        className="relative block h-10 px-6 tab rounded-full"
+                        className={`relative block h-10 px-6 tab rounded-full ${
+                          activeTab === "panel-1" ? "active" : ""
+                        }`}
+                        onClick={() => handleTabClick("panel-1")}
                       >
                         <span className="text-gray-800">Location</span>
                       </button>
                       <button
                         role="tab"
-                        aria-selected={false}
+                        aria-selected={activeTab === "panel-2"}
                         aria-controls="panel-2"
                         id="tab-2"
                         tabIndex={-1}
-                        className="relative block h-10 px-6 tab rounded-full"
+                        className={`relative block h-10 px-6 tab rounded-full ${
+                          activeTab === "panel-2" ? "active" : ""
+                        }`}
+                        onClick={() => handleTabClick("panel-2")}
                       >
                         <span className="text-gray-800">Radius</span>
                       </button>
@@ -203,7 +218,9 @@ const CampaignSettings = () => {
                   <div
                     role="tabpanel"
                     id="panel-1"
-                    className="tab-panel p-6 tansition duration-300 w-full"
+                    className={`tab-panel p-6 transition duration-300 w-full ${
+                      activeTab === "panel-1" ? "block" : "hidden"
+                    }`}
                   >
                     <Text
                       className="md:ml-[0] ml-[5px] mt-6 text-gray-700 text-xs"
@@ -224,7 +241,9 @@ const CampaignSettings = () => {
                   <div
                     role="tabpanel"
                     id="panel-2"
-                    className="absolute top-0 invisible opacity-0 tab-panel p-6 tansition duration-300 w-full"
+                    className={`tab-panel p-6 transition duration-300 w-full ${
+                      activeTab === "panel-2" ? "block" : "hidden"
+                    }`}
                   >
                     <Text
                       className="md:ml-[0] ml-[5px] mt-[25px] text-gray-700 text-xs"
@@ -239,7 +258,7 @@ const CampaignSettings = () => {
                           name="radius"
                           className="flex h-5 md:ml-[0] ml-[5px] rounded-sm w-[99%]"
                           min={1}
-                          max={34}
+                          max={30}
                           value={radius}
                           onChange={updateRadiusValue}
                         ></input>
@@ -261,7 +280,6 @@ const CampaignSettings = () => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>

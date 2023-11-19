@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment/moment";
 
 const initialState = {
   isLoading: false,
@@ -16,6 +17,7 @@ const initialState = {
     location: "",
     status: "live_now",
   },
+  totalCampaigns: 0,
 };
 
 const month = [
@@ -34,29 +36,31 @@ const month = [
 ];
 
 const campaignSlice = createSlice({
-  name: "campaign",
+  name: "campaigns",
   initialState,
   reducers: {
     // store campaigns fetched from backend
     StoreCampaigns: (state, action) => {
       const fetchedCampaigns = action.payload;
+      const totalItem = action.payload.length;
 
       return {
         ...state,
-        campaigns: [...state.campaigns, ...fetchedCampaigns],
+        campaigns: fetchedCampaigns,
+        totalCampaigns: totalItem,
       };
     },
 
     // first reducer to store selected campaign type
     AddCampaignType: (state, action) => {
-      const newCampaignType = action.payload;
-
-      // console.log("newCampaignType: ", newCampaignType);
+      const newCampaignType = action.payload.campaignType;
+      const id = action.payload.id;
 
       return {
         ...state,
         campaign: {
           ...state.campaign,
+          id: id,
           campaignType: newCampaignType,
         },
       };
@@ -65,8 +69,6 @@ const campaignSlice = createSlice({
     // second reducer to store selected product
     AddProduct: (state, action) => {
       const newProduct = action.payload;
-
-      // console.log("newProduct: ",newProduct);
 
       return {
         ...state,
@@ -77,35 +79,22 @@ const campaignSlice = createSlice({
       };
     },
 
-    // to store budget = 3400, clicks = 300, startDate = 25 Jul 2020, endDate = 01 Aug 2020 (using moment), and location from input field
+    // to store budget = 3400, clicks = 300, startDate = 25 Jul 2023, endDate = 01 Aug 2023 (using moment), and location from input field
     AddDateLocation: (state, action) => {
-      const id = 11;
       const location = action.payload;
       const budget = 3400;
-      const startDate = "25 Jul 2020";
-      const endDate = "01 Aug 2020";
+      const startDate = "25 Jul 2023";
+      const endDate = "01 Aug 2023";
       const clicks = 234;
-      const createdOn = `${new Date().getDate()} ${
-        month[new Date().getMonth()]
-      }`;
-      const status = 'live_now';
+      const createdOn = `${moment().format("ll")}`;
+      const status = "live_now";
 
-      // console.log(
-      //   JSON.stringify({
-      //     location,
-      //     budget,
-      //     startDate,
-      //     endDate,
-      //     clicks,
-      //     createdOn,
-      //   })
-      // );
+      console.log("createdOn: ", createdOn);
 
       return {
         ...state,
         campaign: {
           ...state.campaign,
-          id: id,
           location: location,
           budget: budget,
           startDate: startDate,
@@ -120,8 +109,6 @@ const campaignSlice = createSlice({
     // ready to go - new campaign status always live_now
     AddCampaign: (state, action) => {
       const newCampaign = action.payload;
-
-      // console.log("newCampaign: ", newCampaign);
 
       return {
         ...state,

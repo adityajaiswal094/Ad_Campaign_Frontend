@@ -1,7 +1,5 @@
 import React /* , { useState } */ from "react";
 
-import axios from "axios";
-
 import { Button, CheckBox, Img, Line, Text } from "components";
 import { CampaignStatus, FormatPrice } from "../utils/utils";
 import FacebookIcon from "../assets/images/facebook.png";
@@ -9,34 +7,8 @@ import GoogleIcon from "../assets/images/google.png";
 import InstagramIcon from "../assets/images/instagram.png";
 import YoutubeIcon from "../assets/images/youtube.png";
 
-// import { FaGoogle } from "react-icons/fa6";
-
 const CampaignDetails = (props) => {
   // const [toggle, setToggle] = useState();
-
-  const deleteCampaign = async (id) => {
-    try {
-      const deleteCampaignUrl = `http://localhost:4000/yourcampaigns/${id}`;
-
-      // eslint-disable-next-line no-unused-vars
-      const response = await axios.delete(deleteCampaignUrl);
-
-      // console.log("response:", response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const campaignToggleHandler = async (id) => {
-    try {
-      const url = `http://localhost:4000/yourcampaigns/${id}`;
-
-      // eslint-disable-next-line no-unused-vars
-      const response = await axios.put(url);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const Icon = (platform) => {
     switch (platform) {
@@ -62,23 +34,26 @@ const CampaignDetails = (props) => {
       <div className="flex md:flex-col flex-row md:gap-5 items-center justify-evenly w-full">
         {/* <div className="border border-gray-400 border-solid h-4 rounded-[3px] w-4"></div> */}
 
-        <CheckBox
-          className="font-medium ml-3 sm:ml-[0] sm:mt-0 my-0.5 text-left text-black-900_7f text-sm"
-          inputClassName="h-4 mr-[5px] w-4"
-          name="onoff"
-          id="onoff"
-        ></CheckBox>
+        <div className="flex flex-row">
+          <CheckBox
+            className="font-medium ml-3 sm:ml-[0] sm:mt-0 my-0.5 text-left text-black-900_7f text-sm"
+            inputClassName="h-4 mr-[5px] w-4"
+            name="onoff"
+            id="onoff"
+          ></CheckBox>
 
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            value=""
-            className="sr-only peer"
-            checked={props.status === "live_now" ? true : false}
-            onChange={campaignToggleHandler}
-          />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        </label>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={props.status === "live_now" ? true : false}
+              onChange={() => {
+                props.campaignToggleHandler(props.id);
+              }}
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none  dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
 
         <Img
           className="h-[54px] sm:h-auto ml-9 md:ml-[0] object-cover rounded-[5px] w-[6%] md:w-full"
@@ -93,6 +68,7 @@ const CampaignDetails = (props) => {
             Created on {props.createdOn}
           </Text>
         </div>
+
         <Text
           className="md:ml-[0] ml-[34px] text-black-900 text-sm"
           size="txtRegular14Black900"
@@ -139,7 +115,7 @@ const CampaignDetails = (props) => {
         </Button>
         <Button
           onClick={() => {
-            deleteCampaign(props.id);
+            props.deleteCampaign(props.id);
           }}
         >
           <Img

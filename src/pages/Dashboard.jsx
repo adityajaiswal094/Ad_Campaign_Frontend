@@ -2,61 +2,138 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { /* useDispatch, */ useSelector } from "react-redux";
 
-import { CheckBox, Img, List, Text } from "components";
+import { CheckBox, Img, Text } from "components";
 import CampaignDetails from "../components/CampaignDetails";
 import Dropdown from "../components/Dropdown";
-
-// import { StoreCampaigns } from "store/campaignReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreCampaigns } from "store/campaignReducer";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [data, setData] = useState([]);
+  const fetchLoadedCampaigns = useSelector(
+    (state) => state.campaigns.campaigns
+  );
+  const dispatch = useDispatch();
 
-  const fetchCampaigns = useSelector((state) => state.campaign.campaigns);
-  // const dispatch = useDispatch();
+  const [selectedPlatformId, setSelectedPlatformId] = useState("all_platform");
+  const [selectedStatusId, setSelectedStatusId] = useState("all_status");
+  const [selectedDateRangeId, setSelectedDateRangeId] = useState("1year");
+
+  const handlePlatformFilter = (id) => {
+    setSelectedPlatformId(id);
+  };
+
+  const handleStatusFilter = (id) => {
+    setSelectedStatusId(id);
+  };
+
+  const handlerDateRangeFilter = (id) => {
+    setSelectedDateRangeId(id);
+  };
+
+  const platforms = [
+    {
+      id: "all_platform",
+      value: "All Platform",
+    },
+    {
+      id: "facebook",
+      value: "Facebook",
+    },
+    {
+      id: "google",
+      value: "Google",
+    },
+    {
+      id: "instagram",
+      value: "Instagram",
+    },
+    {
+      id: "youtube",
+      value: "Youtube",
+    },
+  ];
+
+  const statuses = [
+    {
+      id: "all_status",
+      value: "All Status",
+    },
+    {
+      id: "live_now",
+      value: "Live now",
+    },
+    {
+      id: "paused",
+      value: "Paused",
+    },
+    {
+      id: "exhausted",
+      value: "Exhausted",
+    },
+  ];
+
+  const dayFilter = [
+    {
+      id: "1year",
+      value: "Last 1 year",
+    },
+    {
+      id: "60days",
+      value: "Last 60 days",
+    },
+    {
+      id: "30days",
+      value: "Last 30 days",
+    },
+    {
+      id: "1week",
+      value: "Last 1 week",
+    },
+  ];
 
   const getCampaigns = async () => {
     try {
-      const campaignsUrl = "http://localhost:4000/yourcampaigns";
+      const campaignsUrl = `http://localhost:4000/yourcampaigns/v2?platform=${selectedPlatformId}&status=${selectedStatusId}&dateRange=${selectedDateRangeId}`;
       const response = await axios.get(campaignsUrl);
 
-      setData(response.data);
+      dispatch(StoreCampaigns(response.data));
     } catch (error) {
       console.error(error);
     }
   };
 
-  console.log("fetchCampaigns: ", fetchCampaigns);
+  const deleteCampaign = async (id) => {
+    try {
+      const deleteCampaignUrl = `http://localhost:4000/yourcampaigns/${id}`;
 
-  const platforms = [
-    "All Platform",
-    "Facebook",
-    "Google",
-    "Instagram",
-    "Youtube",
-  ];
+      // eslint-disable-next-line no-unused-vars
+      const response = await axios.delete(deleteCampaignUrl);
+      getCampaigns();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  const statuses = ["All Status", "Live now", "Paused", "Exhausted"];
+  const campaignToggleHandler = async (id) => {
+    try {
+      const url = `http://localhost:4000/yourcampaigns/${id}`;
 
-  const dayFilter = [
-    "Last 1 week",
-    "Last 30 days",
-    "Last 60 days",
-    "Last 1 year",
-  ];
+      // eslint-disable-next-line no-unused-vars
+      const response = await axios.put(url);
+      getCampaigns();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    console.log("api called");
+    console.log("get api called");
     getCampaigns();
-  }, []);
-
-  // useEffect(() => {
-  //   dispatch(StoreCampaigns(data));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPlatformId, selectedStatusId, selectedDateRangeId]);
 
   return (
     <>
@@ -144,7 +221,7 @@ const Dashboard = () => {
                 >
                   Platform:
                 </Text>
-                <Dropdown list={platforms} />
+                <Dropdown list={platforms} onItemClick={handlePlatformFilter} />
 
                 <Text
                   className="ml-2 md:ml-[0] text-base text-black-900_7f"
@@ -152,8 +229,11 @@ const Dashboard = () => {
                 >
                   Status:
                 </Text>
-                <Dropdown list={statuses} />
-                <Dropdown list={dayFilter} />
+                <Dropdown list={statuses} onItemClick={handleStatusFilter} />
+                <Dropdown
+                  list={dayFilter}
+                  onItemClick={handlerDateRangeFilter}
+                />
               </div>
             </div>
 
@@ -215,22 +295,21 @@ const Dashboard = () => {
                 Actions
               </Text>
             </div>
-            <List
-              className="flex flex-col gap-4 items-center w-[96%]"
-              orientation="vertical"
-            >
-              {data.length === 0 ? (
-                <p>No Campaigns</p>
-              ) : (
-                data.map((props, index) => {
-                  return (
-                    <React.Fragment key={`${props.id}#${index}`}>
-                      <CampaignDetails {...props} />
-                    </React.Fragment>
-                  );
-                })
-              )}
-            </List>
+            {fetchLoadedCampaigns.length === 0 ? (
+              <p>No Campaigns</p>
+            ) : (
+              fetchLoadedCampaigns.map((props, index) => {
+                return (
+                  <React.Fragment key={`${props.id}#${index}`}>
+                    <CampaignDetails
+                      {...props}
+                      deleteCampaign={deleteCampaign}
+                      campaignToggleHandler={campaignToggleHandler}
+                    />
+                  </React.Fragment>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

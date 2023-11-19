@@ -18,7 +18,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  campaign: campaignReducer,
+  campaigns: campaignReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
