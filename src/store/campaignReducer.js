@@ -74,8 +74,6 @@ const campaignSlice = createSlice({
       const createdOn = `${moment().format("ll")}`;
       const status = "live_now";
 
-      console.log("createdOn: ", createdOn);
-
       return {
         ...state,
         campaign: {
@@ -98,6 +96,7 @@ const campaignSlice = createSlice({
       return {
         ...state,
         campaigns: [...state.campaigns, newCampaign],
+        campaign: {},
       };
     },
   },

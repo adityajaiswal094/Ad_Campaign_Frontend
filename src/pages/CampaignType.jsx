@@ -17,6 +17,7 @@ const CampaignType = () => {
   const [currentSelectedItemId, setCurrentSelectedItemId] = useState(null);
   const [currentSelectedItem, setCurrentSelectedItem] = useState({});
 
+
   const totalCampaigns = useSelector((state) => state.campaigns.totalCampaigns);
   const dispatch = useDispatch();
 
@@ -44,6 +45,7 @@ const CampaignType = () => {
   useEffect(() => {
     getCampaignTypes();
   }, []);
+
 
   return (
     <>

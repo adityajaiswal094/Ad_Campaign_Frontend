@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Img, Line, Text } from "components";
 import ProductCard from "../components/ProductCard";
@@ -17,6 +17,9 @@ const ChooseproductPage = () => {
 
   const navigate = useNavigate();
 
+  const campaign = useSelector(
+    (state) => state.campaigns.campaign
+  );
   const dispatch = useDispatch();
 
   // Function to handle selection/deselection of items
@@ -45,6 +48,13 @@ const ChooseproductPage = () => {
 
   useEffect(() => {
     getProducts();
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(campaign).length === 0) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Img, Line, Text } from "components";
 import { AddDateLocation } from "../store/campaignReducer";
@@ -13,6 +13,7 @@ const CampaignSettings = () => {
 
   const navigate = useNavigate();
 
+  const campaign = useSelector((state) => state.campaigns.campaign);
   const dispatch = useDispatch();
 
   const handleTabClick = (tabId) => {
@@ -26,6 +27,13 @@ const CampaignSettings = () => {
   const updateRadiusValue = (e) => {
     setRadius(e.target.value);
   };
+
+  useEffect(() => {
+    if (Object.keys(campaign).length === 0) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

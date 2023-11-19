@@ -130,7 +130,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log("get api called");
     getCampaigns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPlatformId, selectedStatusId, selectedDateRangeId]);

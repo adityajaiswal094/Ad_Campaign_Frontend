@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -33,6 +33,13 @@ const ReadytogoPage = () => {
     // eslint-disable-next-line no-unused-vars
     const response = await axios.post(url, campaign);
   };
+
+  useEffect(() => {
+    if (Object.keys(campaign).length === 0) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
